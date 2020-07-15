@@ -131,8 +131,10 @@ router.patch('/users/me/update', auth, async (req, res) => {
     }
     try {
         updates.forEach((update) => req.user[update] = req.body[update])
+        
         await req.user.save()
-        res.send(req.user)
+        const user = await User.findOne({_id: req.user._id})
+        res.send(user)
     } catch (err) {
         res.status(400).send(err.message)
     }
