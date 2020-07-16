@@ -121,6 +121,25 @@ router.patch('/users/:id', allowed, async (req, res) => {
 })
 
 
+router.get('/users/me/changes', auth, async (req, res) => {
+    res.send(req.user)
+})
+
+router.patch('/users/me/update', auth, async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allows = ['static_list', 'dinamic_list']
+    const isValid = updates.every((update) => allows.includes(update))
+    if (!isValid) {
+        return res.status(400).send({ error: 'Invalid updates' })
+    }
+    try {
+        updates.forEach((update) => req.user[update] = req.body[update])
+        await req.user.save()
+        res.send(req.user)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
 // pass name, email and password (optional)
 router.patch('/users/me/update', auth, async (req, res) => {
     const updates = Object.keys(req.body)
@@ -131,10 +150,8 @@ router.patch('/users/me/update', auth, async (req, res) => {
     }
     try {
         updates.forEach((update) => req.user[update] = req.body[update])
-        
         await req.user.save()
-        const user = await User.findOne({_id: req.user._id})
-        res.send(user)
+        res.send(req.user)
     } catch (err) {
         res.status(400).send(err.message)
     }

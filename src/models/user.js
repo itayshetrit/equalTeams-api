@@ -56,6 +56,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    changes: {
+        type: Number,
+        default: 0
+    },
     tokens: [{
         token: {
             type: String,
