@@ -3,12 +3,6 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const KindEnum = {
-	parent: 'parent',
-	child: 'child',
-	regular: 'regular'
-}
-
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -20,24 +14,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    dinamic_list: {
-        type: Array
-    },
-    static_list: {
-        type: Array
-    },
-    email: {
-        type: String,
-        unique: true,
-        required: true,
-        trim: true,
-        lowercase: true,
-        validate(value){
-            if(!validator.isEmail(value)){
-                throw new Error("invalid email")
-            }
-        }
-    },
     password: {
         type: String,
         required: true,
@@ -45,20 +21,8 @@ const userSchema = new mongoose.Schema({
         minlength: 6
     },
     role: {
-        type: Number
-    },
-    kind: {
-        type: String,
-        required: false,
-        default: KindEnum.regular
-    },
-    flag: {
-        type: Boolean,
-        default: false
-    },
-    changes: {
         type: Number,
-        default: 0
+        default: 1
     },
     tokens: [{
         token: {
@@ -98,15 +62,14 @@ userSchema.methods.generateAuthAdminToken = async function() {
     return token
 }
 // Login checking
-userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({email})
+userSchema.statics.findByCredentials = async (phone, password) => {
+    const user = await User.findOne({phone})
     if(!user){
-        throw new Error('Email is not exist') // does not shown - ask Igor - because throw instead return? what is better?
-        // return Error(404,'Email is not exist'); // does not shown - ask Igor - because throw instead return? what is better?
+        throw new Error('מספר פלאפון לא קיים במערכת') 
     }
     const isMatch = await bcrypt.compare(password, user.password)
     if(!isMatch){
-        throw new Error('Wrong Password') // does not shown - ask Igor - because throw instead return? what is better?
+        throw new Error('סיסמא שגויה') // does not shown - ask Igor - because throw instead return? what is better?
     }
     return user
 }

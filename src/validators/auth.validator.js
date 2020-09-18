@@ -1,13 +1,12 @@
 const Joi = require('@hapi/joi');
-import * as joiFields from '../middleware/joi-fields';
+import * as joiFields from './joi-fields'
 
 export const validateRegister = (req, res, next) => {
-	// logger.info('Validating request body login');
+	console.log('Joi is validating register');
 	const schema = Joi.object().keys(
 		{
 			name: joiFields.jName.required(),
-			phone: joiFields.jName.required(),
-			email: joiFields.jEmail.required(),
+			phone: joiFields.jPhone.required(),
 			password: joiFields.jPassword.required()
 		
 		});
@@ -21,11 +20,12 @@ export const validateRegister = (req, res, next) => {
 };
 
 export const validateLogin = (req, res, next) => {
-	logger.info('Validating request body login');
+	console.log('Joi is validating login');
 	const schema = Joi.object().keys(
 		{
-			email: joiFields.jEmail.required(),
-			phone: joiFields.jName.required()
+			phone: joiFields.jPhone.required(),
+			password: joiFields.jPassword.required()
+
 		
 		});
 

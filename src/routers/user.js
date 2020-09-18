@@ -8,8 +8,7 @@ const router = new experss.Router()
 
 // pass name, email and password at body
 router.post('/users', async (req, res) => {
-    const user = new User({ ...req.body, role: 1, flag: false })
-
+    const user = new User({ ...req.body })
     try {
         await user.save()
         res.status(201).send(user)
@@ -21,7 +20,7 @@ router.post('/users', async (req, res) => {
 // pass email and password at body, return token
 router.post('/users/login', async (req, res) => {
     try {
-        const user = await User.findByCredentials(req.body.email, req.body.password)
+        const user = await User.findByCredentials(req.body.phone, req.body.password)
         if (user.flag === false) {
             res.status(406).send("המשתמש עדיין ממתין לאישור המנהל")
         }
@@ -70,7 +69,8 @@ router.post('/users/logoutAll', auth, async (req, res) => { // all sessions
 // 
 router.get('/users', allowed, async (req, res) => {
     try {
-        const users = await User.find({}).select(['name', 'email', 'role', 'flag']).sort({ flag: 1 })
+        const users = await User.find({}).select(['name', 'phone', 'end_date', 'flag'])
+        // .sort({ flag: 1 })
         res.send(users)
     } catch (err) {
         res.status(500).send(err.message)
@@ -99,7 +99,7 @@ router.get('/users/:id', allowed, async (req, res) => {
 // pass name, email and password (optional)
 router.patch('/users/:id', allowed, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allows = ['name', 'email', 'password', 'flag']
+    const allows = ['name', 'phone', 'password', 'flag', 'end_date']
     const isValid = updates.every((update) => allows.includes(update))
     if (!isValid) {
         return res.status(400).send({ error: 'Invalid updates' })
