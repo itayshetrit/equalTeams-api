@@ -2,7 +2,12 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const userSchema = new mongoose.Schema({
+const guestSchema = new mongoose.Schema({
+    uid: {
+        type: String,
+        required: true,
+        trim: true
+    },
     name: {
         type: String,
         required: true,
@@ -13,28 +18,43 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    password: {
+    sum: {
+        type: Number,
+        required: true,
+        trim: true
+    },
+    closeness: {
         type: String,
         required: true,
-        trim: true,
-        minlength: 6
+        trim: true
     },
-    role: {
+    accept: {
         type: Number,
-        default: 1
+        trim: true
     },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }]
+    table: {
+        type: Number,
+        trim: true
+    },
+    arrived: {
+        type: Number,
+        trim: true
+    },
+    gift: {
+        type: Number,
+        trim: true
+    },
+    notes: {
+        type: String,
+        trim: true
+    }
+
 })
 
 // methods - instance's methods, individual user
 
 // return values at login
-userSchema.methods.getPublicProfile = function() {
+guestSchema.methods.getPublicProfile = function() {
     const user = this
     const userObj = user.toObject()
     delete userObj.password
@@ -43,7 +63,7 @@ userSchema.methods.getPublicProfile = function() {
 }
 
 // jwt at Login
-userSchema.methods.generateAuthToken = async function() {
+guestSchema.methods.generateAuthToken = async function() {
     const user = this
     // const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
     const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
@@ -52,7 +72,7 @@ userSchema.methods.generateAuthToken = async function() {
     return token
 }
 
-userSchema.methods.generateAuthAdminToken = async function() {
+guestSchema.methods.generateAuthAdminToken = async function() {
     const user = this
     // const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
     const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET_ADMIN)
@@ -61,8 +81,8 @@ userSchema.methods.generateAuthAdminToken = async function() {
     return token
 }
 // Login checking
-userSchema.statics.findByCredentials = async (phone, password) => {
-    const user = await User.findOne({phone})
+guestSchema.statics.findByCredentials = async (phone, password) => {
+    const user = await Guest.findOne({phone})
     if(!user){
         throw new Error('מספר פלאפון לא קיים במערכת') 
     }
@@ -73,16 +93,8 @@ userSchema.statics.findByCredentials = async (phone, password) => {
     return user
 }
 
-// hash the password for post and patch
-// middleware before save
-userSchema.pre('save', async function (next) {
-    const user = this
-    if(user.isModified('password')){
-        user.password = await bcrypt.hash(user.password,8)
-    }
-    next()
-})
 
-const User = mongoose.model('User', userSchema)
 
-module.exports = User
+const Guest = mongoose.model('Guest', guestSchema)
+
+module.exports = Guest

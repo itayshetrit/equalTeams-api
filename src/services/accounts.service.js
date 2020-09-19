@@ -1,6 +1,7 @@
 const uuid = require('uuid');
 import axios from 'axios'
 import accountModel from '../models/user'
+import guestModel from '../models/guest'
 // return uuid();
 import { responseWrapper, responseSuccess } from '../common/respone';
 
@@ -11,12 +12,23 @@ const getJwtAndIdToken = (uid, id_token) => {
 }
 
 export const addUser = async (req) => {
-	console.log('add user service');
     try {
-		const user = new accountModel({ ...req.body })
+		const user = new guestModel({ ...req.body })
 		await user.save()
-		console.log('add user success')
 		return responseSuccess({ok:1})
+    } catch (err) {
+		console.log(err.stack)
+		return responseWrapper(500, { error: "Internal Server Error" });
+    }
+}
+
+export const getUsers = async (req) => {
+	
+	console.log('get users service');
+    try {
+		const users = await accountModel.find({ role: 1 }).select(['name', '_id'])
+		console.log(users)
+		return responseSuccess(users)
     } catch (err) {
 		console.log(err.stack)
 		return responseWrapper(500, { error: "Internal Server Error" });

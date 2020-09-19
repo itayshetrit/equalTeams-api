@@ -8,8 +8,8 @@ export const checkAuth = async (req) => {
 	console.log('checkAuth service');
 	try {
 		const user = await req.user.getPublicProfile()
+		console.log('Success to get user: ')
 		console.log(user)
-		console.log('Success to get user: ' + JSON.stringify(user))
 		return responseSuccess(user)
 	} catch (err) {
 		console.log(err.stack)

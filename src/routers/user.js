@@ -69,7 +69,7 @@ router.post('/users/logoutAll', auth, async (req, res) => { // all sessions
 // 
 router.get('/users', allowed, async (req, res) => {
     try {
-        const users = await User.find({}).select(['name', 'phone', 'end_date', 'flag'])
+        const users = await User.find({ role: 1 }).select(['name', 'phone', 'end_date', 'flag'])
         // .sort({ flag: 1 })
         res.send(users)
     } catch (err) {
