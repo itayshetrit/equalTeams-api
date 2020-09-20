@@ -16,6 +16,20 @@ export const checkAuth = async (req) => {
 		return responseWrapper(500, { error: "Internal Server Error" });
 	}
 }
+
+export const logoutAll = async (req) => {
+	console.log('logoutAll service');
+
+
+	try {
+        req.user.tokens = []
+        await req.user.save()
+        return responseSuccess()
+    } catch (err) {
+        return responseWrapper(500, { error: "Internal Server Error" });
+    }
+	
+}
 // const generateAuthAdminToken = async (user) => {
 // 	const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET_ADMIN)
 //     user.tokens = user.tokens.concat({token})

@@ -11,6 +11,11 @@ export const login = async (req, res) => {
 	res.status(resp.status).send(resp.data);
 }
 
+export const logoutAll = async (req, res) => {
+	console.log('logoutAll controller')
+	const resp = await authService.logoutAll(req);
+	res.status(resp.status).send(resp.data);
+}
 
 export const checkAuth = async (req, res) => {
 	console.log('checkAuth controller')
