@@ -11,27 +11,37 @@ const getJwtAndIdToken = (uid, id_token) => {
 	return ({ jwt: token, id_token: id_token })
 }
 
-export const addGuest = async (req) => {
-    try {
-		const guest = new guestModel({ ...req.body })
-		await guest.save()
-		return responseSuccess({ok:1})
-    } catch (err) {
+export const addUser = async (req) => {
+	try {
+		const user = new guestModel({ ...req.body })
+		await user.save()
+		return responseSuccess({ ok: 1 })
+	} catch (err) {
 		console.log(err.stack)
 		return responseWrapper(500, { error: "Internal Server Error" });
-    }
+	}
 }
 
-export const getUsers = async (req) => {
-	
-	console.log('get users service');
-    try {
-		const users = await accountModel.find({ role: 1 }).select(['name', '_id'])
-		return responseSuccess(users)
-    } catch (err) {
+export const setGuestTable = async (id,table) => {
+	console.log('set guest table service');
+	try {
+		const guest = await guestModel.updateOne({ _id: id }, { $set: { table } })
+		return responseSuccess({ok:1})
+	} catch (err) {
 		console.log(err.stack)
 		return responseWrapper(500, { error: "Internal Server Error" });
-    }
+	}
+}
+
+export const getGuests = async (uid) => {
+	console.log('get guests service');
+	try {
+		const guests = await guestModel.find({ uid }).sort({ closeness: 1})
+		return responseSuccess(guests)
+	} catch (err) {
+		console.log(err.stack)
+		return responseWrapper(500, { error: "Internal Server Error" });
+	}
 }
 
 const createAccountSettings = async (uid) => {
