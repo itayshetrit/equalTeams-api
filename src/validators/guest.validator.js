@@ -21,7 +21,7 @@ export const validateAddGuest = (req, res, next) => {
 };
 
 export const validateSetGuestTable = (req, res, next) => {
-	console.log('Joi is validating login');
+	console.log('Joi is validating set guest table');
 	const schema = Joi.object().keys(
 		{
 			table: joiFields.jNumber.required(),
@@ -30,6 +30,7 @@ export const validateSetGuestTable = (req, res, next) => {
 
 	const value = schema.validate(req.body);
 	if (value.error) {
+		console.log(value.error)
 		res.status(400).send({ error: value.error.details[0].message });
 		return;
 	}

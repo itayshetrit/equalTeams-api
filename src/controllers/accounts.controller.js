@@ -1,8 +1,8 @@
 import * as accountsService from '../services/accounts.service';
 
 
-export const addGuest = async (req, res) => {
-	const resp = await accountsService.addGuest(req);
+export const addUser = async (req, res) => {
+	const resp = await accountsService.addUser(req);
 	res.status(resp.status).send(resp.data);
 }
 

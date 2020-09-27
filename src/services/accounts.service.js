@@ -11,10 +11,10 @@ const getJwtAndIdToken = (uid, id_token) => {
 	return ({ jwt: token, id_token: id_token })
 }
 
-export const addGuest = async (req) => {
+export const addUser = async (req) => {
     try {
-		const guest = new guestModel({ ...req.body })
-		await guest.save()
+		const user = new accountModel({ ...req.body })
+		await user.save()
 		return responseSuccess({ok:1})
     } catch (err) {
 		console.log(err.stack)
