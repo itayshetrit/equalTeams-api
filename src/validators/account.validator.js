@@ -35,7 +35,12 @@ export const validateAddGuest = (req, res, next) => {
 			name: joiFields.jName.required(),
 			phone: joiFields.jPhone.required(),
 			sum: joiFields.jNumber.required(),
-			closeness: joiFields.jString.required()
+			closeness: joiFields.jString.required(),
+			accept: joiFields.jNumber,
+			table: joiFields.jNumber,
+			arrived: joiFields.jNumber,
+			gift: joiFields.jNumber,
+			notes: joiFields.jString,
 		
 		});
 
