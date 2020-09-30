@@ -11,6 +11,7 @@ import * as guestsValidators from '../../validators/guest.validator';
 import * as authValidators from '../../validators/auth.validator';
 // import passport from 'passport';
 router.post('/guests', accountsValidators.validateAddGuest, guestsController.addGuest);
+router.patch('/guests/:id', accountsValidators.validateEditGuest, guestsController.editGuest);
 router.patch('/guests/setGuestTable', guestsValidators.validateSetGuestTable, guestsController.setGuestTable);
 router.patch('/guests/:id', guestsValidators.validateSetGuestTable, guestsController.setGuestTable);
 router.get('/guests', auth, guestsController.getGuests);

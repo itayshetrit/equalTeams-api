@@ -20,11 +20,11 @@ export const getGuests = async (req, res) => {
 	res.status(resp.status).send(resp.data);
 }
 
-export const updateUser = async (req, res) => {
-	console.log('update user');
-	const uid = req.decoded.uid;
-	const user = req.body;
-	const resp = await accountsService.updateUser(user, uid);
+export const editGuest = async (req, res) => {
+	console.log('edit guest');
+	const id = req.params.id;
+	const body = req.body;
+	const resp = await guestsService.editGuest(id, body);
 	res.status(resp.status).send(resp.data);
 }
 
