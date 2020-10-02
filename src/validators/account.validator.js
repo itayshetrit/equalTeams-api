@@ -3,7 +3,7 @@ import * as joiFields from './joi-fields'
 
 
 export const validateEditGuest = (req, res, next) => {
-	console.log("i am here")
+	console.log("validateEditGuest")
 	const schema = Joi.object().keys(
 		{
 			name: joiFields.jName,
