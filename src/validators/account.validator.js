@@ -4,6 +4,7 @@ import * as joiFields from './joi-fields'
 
 export const validateEditGuest = (req, res, next) => {
 	console.log("validateEditGuest")
+	console.log(req.body)
 	const schema = Joi.object().keys(
 		{
 			name: joiFields.jName,

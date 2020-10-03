@@ -11,6 +11,18 @@ const getJwtAndIdToken = (uid, id_token) => {
 	return ({ jwt: token, id_token: id_token })
 }
 
+// export const whatsapp = async () => {
+//     const client = new WhatsAppWeb()
+//     const whatsapp = () => {
+//         client.connect()
+//             .then(([user, chats, contacts, unread]) => {
+//                 console.log("oh hello " + user.name + " (" + user.id + ")")
+//                 console.log("you have " + unread.length + " unread messages")
+//                 console.log("you have " + chats.length + " chats")
+//             })
+//             .catch(err => console.log("unexpected error: " + err))
+//     }
+// }
 export const addGuest = async (req) => {
 	try {
 		const guest = new guestModel({ ...req.body })
@@ -50,6 +62,17 @@ export const getGuests = async (uid) => {
 	console.log('get guests service');
 	try {
 		const guests = await guestModel.find({ uid }).sort({ closeness: 1})
+		return responseSuccess(guests)
+	} catch (err) {
+		console.log(err.stack)
+		return responseWrapper(500, { error: "Internal Server Error" });
+	}
+}
+
+export const getTablesGuests = async (uid) => {
+	console.log('get guests service');
+	try {
+		const guests = await guestModel.find({ uid }).sort({ table: 1})
 		return responseSuccess(guests)
 	} catch (err) {
 		console.log(err.stack)
