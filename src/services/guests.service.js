@@ -34,24 +34,24 @@ export const addGuest = async (req) => {
 	}
 }
 
-export const editGuest = async (id,body) => {
+export const editGuest = async (id, body) => {
 	console.log(id)
 	console.log(body)
 	console.log('set guest table service');
 	try {
 		const guest = await guestModel.updateOne({ _id: id }, { ...body })
-		return responseSuccess({ok:1})
+		return responseSuccess({ ok: 1 })
 	} catch (err) {
 		console.log(err.stack)
 		return responseWrapper(500, { error: "Internal Server Error" });
 	}
 }
 
-export const setGuestTable = async (id,table) => {
+export const setGuestTable = async (id, table) => {
 	console.log('set guest table service');
 	try {
 		const guest = await guestModel.updateOne({ _id: id }, { $set: { table } })
-		return responseSuccess({ok:1})
+		return responseSuccess({ ok: 1 })
 	} catch (err) {
 		console.log(err.stack)
 		return responseWrapper(500, { error: "Internal Server Error" });
@@ -61,7 +61,7 @@ export const setGuestTable = async (id,table) => {
 export const getGuests = async (uid) => {
 	console.log('get guests service');
 	try {
-		const guests = await guestModel.find({ uid }).sort({ closeness: 1})
+		const guests = await guestModel.find({ uid }).sort({ closeness: 1 })
 		return responseSuccess(guests)
 	} catch (err) {
 		console.log(err.stack)
@@ -72,7 +72,7 @@ export const getGuests = async (uid) => {
 export const getTablesGuests = async (uid) => {
 	console.log('get guests service');
 	try {
-		const guests = await guestModel.find({ uid }).sort({ table: 1})
+		const guests = await guestModel.find({ uid, table: { $ne: null } }).sort({ table: 1 })
 		return responseSuccess(guests)
 	} catch (err) {
 		console.log(err.stack)
