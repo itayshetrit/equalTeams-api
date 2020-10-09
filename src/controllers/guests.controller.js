@@ -40,17 +40,9 @@ export const editGuest = async (req, res) => {
 	res.status(resp.status).send(resp.data);
 }
 
-export const notificationToken = async (req, res) => {
-	console.log('update notification token');
-	const oneSignalId = req.body.oneSignalId;
-	const uid = req.decoded.uid;
-	const resp = await accountsService.notificationToken(oneSignalId, uid);
-	res.status(resp.status).send(resp.data);
-}
-
-export const getSettings = async (req, res) => {
-	console.log('get user settings');
-	const uid = req.decoded.uid;
-	const resp = await accountsService.getSettings(uid);
+export const deleteGuest = async (req, res) => {
+	console.log('delete guest');
+	const id = req.params.id;
+	const resp = await guestsService.deleteGuest(id);
 	res.status(resp.status).send(resp.data);
 }

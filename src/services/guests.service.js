@@ -34,10 +34,21 @@ export const addGuest = async (req) => {
 	}
 }
 
+export const deleteGuest = async (id) => {
+	console.log(id);
+	console.log('delete guest service');
+	try {
+		const guest = await guestModel.findByIdAndDelete(id)
+		return responseSuccess({ ok: 1 });
+	} catch (err) {
+		console.log(err.stack)
+		return responseWrapper(500, { error: "Internal Server Error" });
+	}
+}
+
 export const editGuest = async (id, body) => {
-	console.log(id)
-	console.log(body)
-	console.log('set guest table service');
+
+	console.log('edit guest service');
 	try {
 		const guest = await guestModel.updateOne({ _id: id }, { ...body })
 		return responseSuccess({ ok: 1 })

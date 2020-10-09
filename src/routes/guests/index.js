@@ -14,7 +14,7 @@ import * as authValidators from '../../validators/auth.validator';
 router.post('/guests', auth, accountsValidators.validateAddGuest, guestsController.addGuest);
 router.patch('/guests/setGuestTable', auth, guestsValidators.validateSetGuestTable, guestsController.setGuestTable);
 router.patch('/guests/:id', auth, accountsValidators.validateEditGuest, guestsController.editGuest);
-router.delete('/guests/:id', auth, guestsController.editGuest);
+router.delete('/guests/:id', auth, guestsController.deleteGuest);
 // router.patch('/guests/:id', guestsValidators.validateSetGuestTable, guestsController.setGuestTable);
 router.get('/guests', auth, guestsController.getGuests);
 router.get('/guests/tables', auth, guestsController.getTablesGuests);
