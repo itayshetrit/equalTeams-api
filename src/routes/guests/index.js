@@ -19,6 +19,7 @@ router.delete('/guests/:id', auth, guestsController.deleteGuest);
 router.get('/guests', auth, guestsController.getGuests);
 router.get('/guests/tables', auth, guestsController.getTablesGuests);
 router.post('/users/login', authValidators.validateLogin, authController.login);
+router.patch('/guests/setAccept/:id', guestsValidators.validateSetAccept, guestsController.setAccept);
 router.get('/users/checkAuth/me', auth, authController.checkAuth);
 // router.post('/users/login', authValidators.validateLogin, authController.login);
 // router.post('/auth/anonymous', authController.anonymousLogin);

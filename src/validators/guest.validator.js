@@ -36,3 +36,19 @@ export const validateSetGuestTable = (req, res, next) => {
 	}
 	next();
 };
+
+export const validateSetAccept = (req, res, next) => {
+	console.log('Joi is validating set guest table');
+	const schema = Joi.object().keys(
+		{
+			accept: joiFields.jNumber.required()
+		});
+
+	const value = schema.validate(req.body);
+	if (value.error) {
+		console.log(value.error)
+		res.status(400).send({ error: value.error.details[0].message });
+		return;
+	}
+	next();
+};
