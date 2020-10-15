@@ -1,11 +1,12 @@
 const Joi = require('@hapi/joi');
 import * as joiFields from './joi-fields'
 
-export const validateRegister = (req, res, next) => {
-	console.log('Joi is validating register');
+export const validateAddUser = (req, res, next) => {
+	console.log('Joi is validating add user');
 	const schema = Joi.object().keys(
 		{
-			name: joiFields.jName.required(),
+			fname: joiFields.jName.required(),
+			lname: joiFields.jName.required(),
 			phone: joiFields.jPhone.required(),
 			password: joiFields.jPassword.required()
 		

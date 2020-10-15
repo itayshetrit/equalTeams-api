@@ -3,7 +3,21 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const userSchema = new mongoose.Schema({
-    name: {
+    fname: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    lname: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    teams: {
+        type: Array,
+        default: []
+    },
+    stadium_uid: {
         type: String,
         required: true,
         trim: true
@@ -20,6 +34,14 @@ const userSchema = new mongoose.Schema({
         minlength: 6
     },
     role: {
+        type: Number,
+        default: 1
+    },
+    attack: {
+        type: Number,
+        default: 1
+    },
+    defense: {
         type: Number,
         default: 1
     },

@@ -12,6 +12,7 @@ const getJwtAndIdToken = (uid, id_token) => {
 }
 
 export const addUser = async (req) => {
+	console.log('add user service')
     try {
 		const user = new accountModel({ ...req.body })
 		await user.save()

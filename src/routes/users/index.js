@@ -8,7 +8,7 @@ import * as accountsController from '../../controllers/accounts.controller';
 import * as authValidators from '../../validators/auth.validator';
 
 router.post('/users/logoutAll', auth, authController.logoutAll);
-router.post('/users/add', allowed, authValidators.validateRegister, accountsController.addUser);
+router.post('/users/add', allowed, authValidators.validateAddUser, accountsController.addUser);
 router.post('/users/login', authValidators.validateLogin, authController.login);
 router.get('/users/checkAuth/me', auth, authController.checkAuth);
 router.get('/users', allowed, accountsController.getUsers);

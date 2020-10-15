@@ -2,6 +2,7 @@ import * as accountsService from '../services/accounts.service';
 
 
 export const addUser = async (req, res) => {
+	console.log('add user controller')
 	const resp = await accountsService.addUser(req);
 	res.status(resp.status).send(resp.data);
 }
