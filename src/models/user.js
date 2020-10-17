@@ -17,7 +17,17 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    stadium_uid: {
+    stadium: {
+        type: String,
+        default: null,
+        trim: true
+    },
+    laundry: {
+        type: Number,
+        default: 0,
+        trim: true
+    },
+    uid: {
         type: String,
         required: true,
         trim: true
@@ -44,6 +54,11 @@ const userSchema = new mongoose.Schema({
     defense: {
         type: Number,
         default: 1
+    },
+    notes: {
+        type: String,
+        trim: true,
+        default: ""
     },
     tokens: [{
         token: {

@@ -11,10 +11,10 @@ const getJwtAndIdToken = (uid, id_token) => {
 	return ({ jwt: token, id_token: id_token })
 }
 
-export const addUser = async (req) => {
+export const addUser = async (body,uid) => {
 	console.log('add user service')
     try {
-		const user = new accountModel({ ...req.body })
+		const user = new accountModel({ ...body, uid })
 		await user.save()
 		return responseSuccess({ok:1})
     } catch (err) {
@@ -27,10 +27,22 @@ export const getUsers = async (req) => {
 	
 	console.log('get users service');
     try {
-		const users = await accountModel.find({ role: 1 }).select(['name', '_id'])
+		const users = await accountModel.find({ role: 1 }).select(['-password', '-tokens'])
 		return responseSuccess(users)
     } catch (err) {
 		console.log(err.stack)
 		return responseWrapper(500, { error: "Internal Server Error" });
     }
+}
+
+export const editUser = async (body, id) => {
+
+	console.log('edit user service');
+	try {
+		const user = await accountModel.updateOne({ _id: id }, { ...body })
+		return responseSuccess({ ok: 1 })
+	} catch (err) {
+		console.log(err.stack)
+		return responseWrapper(500, { error: "Internal Server Error" });
+	}
 }
