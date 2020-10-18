@@ -55,11 +55,6 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },
-    notes: {
-        type: String,
-        trim: true,
-        default: ""
-    },
     tokens: [{
         token: {
             type: String,

@@ -11,8 +11,7 @@ export const validateEditUser = (req, res, next) => {
 			phone: joiFields.jPhone.required(),
 			attack: joiFields.jNumber,
 			defense: joiFields.jNumber,
-			laundry: joiFields.jNumber,
-			notes: joiFields.jString,
+			laundry: joiFields.jNumber
 
 		
 		});
