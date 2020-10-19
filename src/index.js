@@ -3,8 +3,7 @@ require('./db/mongoose')
 const cors = require('cors')
 
 const usersRouter = require('./routes/users/index.js')
-const guestRouter = require('./routes/guests/index.js')
-const tablesRouter = require('./routes/tables/index.js')
+const electionsRouter = require('./routes/elections/index.js')
 
 const app = experss()
 
@@ -21,8 +20,7 @@ app.use(cors())
 // });
 app.use(experss.json())
 app.use(usersRouter)
-app.use(guestRouter)
-app.use(tablesRouter)
+app.use(electionsRouter)
 
 
 
