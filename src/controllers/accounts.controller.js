@@ -11,7 +11,9 @@ export const addUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {
 	console.log('get users controller')
-	const resp = await accountsService.getUsers();
+	const stadium = req.params.stadium;
+	const resp = await accountsService.getUsers(stadium);
+	// const resp = await accountsService.getUsers();
 	res.status(resp.status).send(resp.data);
 }
 
@@ -20,5 +22,12 @@ export const editUser = async (req, res) => {
 	const id = req.params.id;
 	const body = req.body;
 	const resp = await accountsService.editUser(body, id);
+	res.status(resp.status).send(resp.data);
+}
+
+export const deleteUser = async (req, res) => {
+	console.log('delete user');
+	const id = req.params.id;
+	const resp = await accountsService.deleteUser(id);
 	res.status(resp.status).send(resp.data);
 }

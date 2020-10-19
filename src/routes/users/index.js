@@ -13,7 +13,8 @@ router.get('/users/checkAuth/me', auth, authController.checkAuth);
 
 router.post('/users/', allowed, authValidators.validateAddUser, accountsController.addUser);
 router.patch('/users/:id', allowed, authValidators.validateEditUser, accountsController.editUser);
-router.get('/users', allowed, accountsController.getUsers);
+router.delete('/users/:id', allowed, accountsController.deleteUser);
+router.get('/usersByStadium/:stadium', allowed, accountsController.getUsers);
 
 
 module.exports = router;
