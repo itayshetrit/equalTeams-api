@@ -1,7 +1,6 @@
 const uuid = require('uuid');
 import axios from 'axios'
-import accountModel from '../models/user'
-import guestModel from '../models/guest'
+import accountModel from '../models/players'
 // return uuid();
 import { responseWrapper, responseSuccess } from '../common/respone';
 

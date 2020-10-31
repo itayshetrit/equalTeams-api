@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const userSchema = new mongoose.Schema({
+const playerSchema = new mongoose.Schema({
     fname: {
         type: String,
         required: true,
@@ -13,11 +13,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    teams: {
-        type: Array,
-        default: []
-    },
-    stadium: {
+    team: {
         type: String,
         default: null,
         trim: true
@@ -43,10 +39,6 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 6
     },
-    role: {
-        type: Number,
-        default: 1
-    },
     attack: {
         type: Number,
         default: 1
@@ -66,7 +58,7 @@ const userSchema = new mongoose.Schema({
 // methods - instance's methods, individual user
 
 // return values at login
-userSchema.methods.getPublicProfile = function() {
+playerSchema.methods.getPublicProfile = function() {
     const user = this
     const userObj = user.toObject()
     delete userObj.password
@@ -75,39 +67,38 @@ userSchema.methods.getPublicProfile = function() {
 }
 
 // jwt at Login
-userSchema.methods.generateAuthToken = async function() {
+playerSchema.methods.generateAuthToken = async function() {
     const user = this
-    // const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
+    
     const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
     user.tokens = user.tokens.concat({token})
     await user.save()
     return token
 }
 
-userSchema.methods.generateAuthAdminToken = async function() {
+playerSchema.methods.generateAuthAdminToken = async function() {
     const user = this
-    // const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
     const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET_ADMIN)
     user.tokens = user.tokens.concat({token})
     await user.save()
     return token
 }
 // Login checking
-userSchema.statics.findByCredentials = async (phone, password) => {
+playerSchema.statics.findByCredentials = async (phone, password) => {
     const user = await User.findOne({phone})
     if(!user){
         throw new Error('מספר פלאפון לא קיים במערכת') 
     }
     const isMatch = await bcrypt.compare(password, user.password)
     if(!isMatch){
-        throw new Error('סיסמא שגויה') // does not shown - ask Igor - because throw instead return? what is better?
+        throw new Error('סיסמא שגויה')
     }
     return user
 }
 
 // hash the password for post and patch
 // middleware before save
-userSchema.pre('save', async function (next) {
+playerSchema.pre('save', async function (next) {
     const user = this
     if(user.isModified('password')){
         user.password = await bcrypt.hash(user.password,8)
@@ -115,6 +106,6 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
-const User = mongoose.model('User', userSchema)
+const Player = mongoose.model('Player', playerSchema);
 
-module.exports = User
+module.exports = Player;

@@ -1,7 +1,5 @@
-// import axios from 'axios';
 const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
-import accountModel from '../models/user';
+import managerModel from '../models/manager';
 import { responseWrapper, responseSuccess } from '../common/respone';
 
 export const checkAuth = async (req) => {
@@ -17,52 +15,55 @@ export const checkAuth = async (req) => {
 	}
 }
 
+export const logoutSpecific = async (req) => {
+	console.log('logoutSpecific service');
+	try {
+		req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token)
+		await req.user.save()
+		return responseSuccess()
+	} catch (err) {
+		console.log(err.stack)
+		return responseWrapper(500, { error: "Internal Server Error" });
+	}
+}
+
 export const logoutAll = async (req) => {
 	console.log('logoutAll service');
-
-
 	try {
-        req.user.tokens = []
-        await req.user.save()
-        return responseSuccess()
-    } catch (err) {
-        return responseWrapper(500, { error: "Internal Server Error" });
-    }
-	
+		req.user.tokens = []
+		await req.user.save()
+		return responseSuccess()
+	} catch (err) {
+		console.log(err.stack)
+		return responseWrapper(500, { error: "Internal Server Error" });
+	}
 }
-// const generateAuthAdminToken = async (user) => {
-// 	const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET_ADMIN)
-//     user.tokens = user.tokens.concat({token})
-//     await user.save()
-//     return token
-// }
-
-// const generateAuthToken = async (user) => {
-// 	const token = jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
-//     user.tokens = user.tokens.concat({token})
-//     await user.save()
-//     return token
-// }
 
 export const login = async (phone, password) => {
 	console.log('login service');
 	try {
-		let user = await accountModel.findOne({phone})
-		if(!user){
+		let user = await managerModel.findOne({ phone })
+		if (!user) {
 			return responseWrapper(404, { error: "מספר פלאפון לא קיים במערכת" });
 		}
 		const isMatch = await bcrypt.compare(password, user.password)
-		if(!isMatch){
+		if (!isMatch) {
 			return responseWrapper(401, { error: "סיסמא שגויה" });
 		}
-		let token;
-        if (user.role == 2) {
-            token = await user.generateAuthAdminToken()
-		}
-		else {
-            token = await user.generateAuthToken()
-        }
+		let token = await user.generateAuthAdminToken()
 		return responseSuccess({ user: user.getPublicProfile(), token })
+	} catch (err) {
+		console.log(err.stack)
+		return responseWrapper(500, { error: "Internal Server Error" });
+	}
+}
+
+export const register = async (body) => {
+	console.log('register service')
+	try {
+		const user = new managerModel({ ...body })
+		await user.save()
+		return responseSuccess({ ok: 1 })
 	} catch (err) {
 		console.log(err.stack)
 		return responseWrapper(500, { error: "Internal Server Error" });

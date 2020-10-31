@@ -2,7 +2,8 @@ const experss = require('express')
 require('./db/mongoose')
 const cors = require('cors')
 
-const usersRouter = require('./routes/users/index.js')
+const authRouter = require('./routes/auth/index.js')
+const managerRouter = require('./routes/manager/index.js')
 const electionsRouter = require('./routes/elections/index.js')
 
 const app = experss()
@@ -19,7 +20,8 @@ app.use(cors())
 //     next();
 // });
 app.use(experss.json())
-app.use(usersRouter)
+app.use(authRouter)
+app.use(managerRouter)
 app.use(electionsRouter)
 
 
