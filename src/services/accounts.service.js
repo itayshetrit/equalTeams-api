@@ -1,7 +1,6 @@
 const uuid = require('uuid');
 import axios from 'axios'
-import accountModel from '../models/user'
-import guestModel from '../models/guest'
+import accountModel from '../models/players'
 // return uuid();
 import { responseWrapper, responseSuccess } from '../common/respone';
 
@@ -23,10 +22,10 @@ export const addUser = async (body, uid) => {
 	}
 }
 
-export const getUsers = async (stadium) => {
+export const getUsers = async (team) => {
 	console.log('get users service');
 	try {
-		const users = await accountModel.find({ role: 1, stadium }).select(['-password', '-tokens'])
+		const users = await accountModel.find({ team }).select(['-password', '-tokens'])
 		return responseSuccess(users)
 	} catch (err) {
 		console.log(err.stack)

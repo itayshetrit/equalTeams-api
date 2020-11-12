@@ -11,8 +11,8 @@ export const addUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {
 	console.log('get users controller')
-	const stadium = req.params.stadium;
-	const resp = await accountsService.getUsers(stadium);
+	const team = req.params.team;
+	const resp = await accountsService.getUsers(team);
 	// const resp = await accountsService.getUsers();
 	res.status(resp.status).send(resp.data);
 }
