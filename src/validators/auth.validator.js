@@ -23,25 +23,7 @@ export const validateEditUser = (req, res, next) => {
 	next();
 };
 
-export const validateAddUser = (req, res, next) => {
-	console.log('Joi is validating add user');
-	const schema = Joi.object().keys(
-		{
-			fname: joiFields.jName.required(),
-			lname: joiFields.jName.required(),
-			phone: joiFields.jPhone.required(),
-			password: joiFields.jPassword.required(),
-			stadium: joiFields.jString
-		
-		});
 
-	const value = schema.validate(req.body);
-	if (value.error) {
-		res.status(400).send({ error: value.error.details[0].message });
-		return;
-	}
-	next();
-};
 
 
 // from here 

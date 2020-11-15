@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 import axios from 'axios'
-import accountModel from '../models/players'
+import playerModel from '../models/players'
 // return uuid();
 import { responseWrapper, responseSuccess } from '../common/respone';
 
@@ -13,7 +13,7 @@ const getJwtAndIdToken = (uid, id_token) => {
 export const addUser = async (body, uid) => {
 	console.log('add user service')
 	try {
-		const user = new accountModel({ ...body, uid })
+		const user = new playerModel({ ...body, uid })
 		await user.save()
 		return responseSuccess({ ok: 1 })
 	} catch (err) {
@@ -25,7 +25,7 @@ export const addUser = async (body, uid) => {
 export const getUsers = async (team) => {
 	console.log('get users service');
 	try {
-		const users = await accountModel.find({ team }).select(['-password', '-tokens'])
+		const users = await playerModel.find({ team }).select(['-password', '-tokens'])
 		return responseSuccess(users)
 	} catch (err) {
 		console.log(err.stack)
@@ -37,7 +37,7 @@ export const editUser = async (body, id) => {
 
 	console.log('edit user service');
 	try {
-		const user = await accountModel.updateOne({ _id: id }, { ...body })
+		const user = await playerModel.updateOne({ _id: id }, { ...body })
 		return responseSuccess({ ok: 1 })
 	} catch (err) {
 		console.log(err.stack)
@@ -48,7 +48,7 @@ export const editUser = async (body, id) => {
 export const deleteUser = async (id) => {
 	console.log('delete user service');
 	try {
-		const user = await accountModel.findByIdAndDelete(id)
+		const user = await playerModel.findByIdAndDelete(id)
 		return responseSuccess({ ok: 1 });
 	} catch (err) {
 		console.log(err.stack)
