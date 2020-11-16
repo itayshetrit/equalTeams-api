@@ -10,7 +10,7 @@ import * as managerValidators from '../../validators/manager.validator';
 router.patch('/manager/addTeam', auth, managerValidators.addTeam, managerController.addTeam);
 
 // router.post('/users', auth, authValidators.validateAddUser, accountsController.addUser);
-router.patch('/users/:id', auth, authValidators.validateEditUser, accountsController.editUser);
+// router.patch('/users/:id', auth, authValidators.validateEditUser, accountsController.editUser);
 
 
 

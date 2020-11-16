@@ -15,7 +15,7 @@ const playerSchema = new mongoose.Schema({
     },
     team: {
         type: String,
-        default: null,
+        required: true,
         trim: true
     },
     laundry: {
@@ -30,12 +30,10 @@ const playerSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true,
         trim: true
     },
     password: {
         type: String,
-        required: true,
         trim: true,
         minlength: 6
     },

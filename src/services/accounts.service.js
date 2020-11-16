@@ -40,7 +40,6 @@ export const editUser = async (body, id) => {
 		const user = await playerModel.updateOne({ _id: id }, { ...body })
 		return responseSuccess({ ok: 1 })
 	} catch (err) {
-		console.log(err.stack)
 		return responseWrapper(500, { error: "Internal Server Error" });
 	}
 }

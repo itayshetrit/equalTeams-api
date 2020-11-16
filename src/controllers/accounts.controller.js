@@ -4,6 +4,9 @@ import * as accountsService from '../services/accounts.service';
 export const addUser = async (req, res) => {
 	console.log('add user controller')
 	const body=req.body;
+	console.log("body");
+	console.log(body);
+	console.log("body");
 	const uid=req.user._id;
 	const resp = await accountsService.addUser(body,uid);
 	res.status(resp.status).send(resp.data);
