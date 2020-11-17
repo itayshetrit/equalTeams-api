@@ -9,10 +9,10 @@ const electionsRouter = require('./routes/elections/index.js')
 
 const app = experss()
 
-var corsOptions = {
-    origin: 'https://be-simple-2.web.app',
-    optionSuccessStatus: 200
-}
+// var corsOptions = {
+//     origin: 'https://be-simple-2.web.app',
+//     optionSuccessStatus: 200
+// }
 const port = process.env.PORT || 8000
 // app.use(cors(corsOptions))
 app.use(cors())
@@ -20,6 +20,11 @@ app.use(cors())
 //     res.header("Access-Control-Allow-Origin", "https://be-simple-api.herokuapp.com/");
 //     next();
 // });
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 app.use(experss.json())
 app.use(authRouter)
 app.use(managerRouter)
