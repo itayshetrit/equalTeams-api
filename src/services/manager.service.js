@@ -9,7 +9,11 @@ export const addTeam = async (team, id) => {
 	console.log('add team service');
 	try {
 		const user = await managerModel.findOne({ _id: id })
-		if (user){
+		if (user) {
+			let isExist = user.teams.filter(x => x === team);
+			if(isExist[0]){
+				return responseWrapper(409, { error: "קבוצה זו כבר קיימת" });
+			}
 			user.teams.push(team);
 			await user.save()
 		}

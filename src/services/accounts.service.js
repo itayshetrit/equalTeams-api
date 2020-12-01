@@ -13,6 +13,10 @@ const getJwtAndIdToken = (uid, id_token) => {
 export const addUser = async (body, uid) => {
 	console.log('add user service')
 	try {
+		const isExist = await playerModel.findOne({ fname: body.fname, lname: body.lname, team: body.team, uid });
+		if (isExist) {
+			return responseWrapper(409, { error: "שחקן זה כבר קיים בקבוצה זו" });
+		}
 		const user = new playerModel({ ...body, uid })
 		await user.save()
 		return responseSuccess({ ok: 1 })
